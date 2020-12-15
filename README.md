@@ -15,33 +15,35 @@ Below is a simple example that describes the instantiation and most basic usage 
 Run `go get github.com/splitio/go-client/` or `dep ensure -add github.com/splitio/go-client`
 
 ```go
+package main
+
 import (
-    "github.com/splitio/go-client/splitio/client"
-    "github.com/splitio/go-client/splitio/conf"
+	"github.com/splitio/go-client/splitio/client"
+	"github.com/splitio/go-client/splitio/conf"
 )
 
 func main() {
-    cfg := conf.Default()
-    factory, err := client.NewSplitFactory("YOUR_SDK_TYPE_API_KEY", cfg)
-    if err != nil { 
-        // SDK initialization error
-    }
+	cfg := conf.Default()
+	factory, err := client.NewSplitFactory("YOUR_SDK_TYPE_API_KEY", cfg)
+	if err != nil {
+		// SDK initialization error
+	}
 
-    err = client.BlockUntilReady(10)
-    if err != nil { 
-        // SDK timeout error
-    }
+	splitClient := factory.Client()
 
-    client := factory.Client()
+	err = splitClient.BlockUntilReady(10)
+	if err != nil {
+		// SDK timeout error
+	}
 
-    treatment := client.Treatment("CUSTOMER_ID", "SPLIT_NAME", nil)
-    if treatment == "on" {
-    // insert code here to show on treatment
-    } else if treatment == "off" {
-    // insert code here to show off treatment 
-    } else {
-    // insert your control treatment code here
-    }
+	treatment := splitClient.Treatment("CUSTOMER_ID", "SPLIT_NAME", nil)
+	if treatment == "on" {
+		// insert code here to show on treatment
+	} else if treatment == "off" {
+		// insert code here to show off treatment
+	} else {
+		// insert your control treatment code here
+	}
 }
 ```
 
